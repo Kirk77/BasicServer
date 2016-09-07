@@ -1,0 +1,7 @@
+spring:
+    pid:
+        file: bserver.pid
+    mvc:    
+        view:
+            prefix: /WEB-INF/views/
+            suffix: .jsp		 

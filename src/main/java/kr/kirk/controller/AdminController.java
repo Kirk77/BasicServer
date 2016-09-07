@@ -1,0 +1,25 @@
+package kr.kirk.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class AdminController {
+
+	private static Logger logger = LoggerFactory.getLogger(AdminController.class);
+
+	@RequestMapping(value = "/")
+	public String home(Model model) {
+		model.addAttribute("name", "kirk");
+		return "home";
+	}
+	
+	@RequestMapping(value = "/admin/login")
+	public String login() {
+//		model.addAttribute("name", "kirk");
+		return "login";
+	}
+}
