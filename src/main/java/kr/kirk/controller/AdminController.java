@@ -19,7 +19,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/admin/login")
 	public String login() {
-//		model.addAttribute("name", "kirk");
-		return "login";
+		logger.info("admin login...");
+		return "admin/login";
 	}
 }

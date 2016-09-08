@@ -7,8 +7,7 @@
 <title>Basic Server Home</title>
 </head>
 <body>
-	<c:out value="<xmp>" escapeXml="true"></c:out>
-	<h2>Hello! ${name}</h2>
-	<div>JSP version</div>
+	<h2>Basic Server ! ${name}</h2>
+	<div>/</div>
 </body>
 </html>

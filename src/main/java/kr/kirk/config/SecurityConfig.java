@@ -15,7 +15,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
+/*
 		CharacterEncodingFilter filter = new CharacterEncodingFilter();
 		filter.setEncoding("UTF-8");
 		filter.setForceEncoding(true);
@@ -29,11 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
              .and()
          .formLogin()
              .loginPage("/admin/login")
-             .loginProcessingUrl("/j_spring_security_check")
-             .usernameParameter("j_username")
-             .passwordParameter("j_password")
+//             .loginProcessingUrl("/j_spring_security_check")
+//             .usernameParameter("j_username")
+//             .passwordParameter("j_password")
 //             .successHandler(loginSuccessHandler)
-             .permitAll()
+//             .permitAll()
              .and()
          .logout()
              .logoutUrl("/logout")
@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
              .and()
          .csrf().disable()
          .httpBasic();
+         */
 	}
 	
 	@Value("${management.shell.auth.simple.user.name}")
