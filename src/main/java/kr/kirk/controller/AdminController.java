@@ -22,4 +22,10 @@ public class AdminController {
 		logger.info("admin login...");
 		return "admin/login";
 	}
+	
+	@RequestMapping(value = "/admin/login_ok")
+	public String login_ok() {
+		logger.info("admin login successful...");
+		return "home";
+	}
 }

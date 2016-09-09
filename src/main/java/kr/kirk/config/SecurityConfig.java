@@ -15,7 +15,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-/*
+
 		CharacterEncodingFilter filter = new CharacterEncodingFilter();
 		filter.setEncoding("UTF-8");
 		filter.setForceEncoding(true);
@@ -24,16 +24,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
          .authorizeRequests()
              .antMatchers("/", "/favicon.ico", "/resources/**").permitAll()
+             .antMatchers("/admin/login").anonymous()
              .antMatchers("/admin/**").hasRole("ADMIN")
              .anyRequest().authenticated()
              .and()
          .formLogin()
              .loginPage("/admin/login")
-//             .loginProcessingUrl("/j_spring_security_check")
+             	.loginProcessingUrl("/admin_login_check")
 //             .usernameParameter("j_username")
 //             .passwordParameter("j_password")
 //             .successHandler(loginSuccessHandler)
-//             .permitAll()
+             	.defaultSuccessUrl("/admin/login_ok")
+             .permitAll()
              .and()
          .logout()
              .logoutUrl("/logout")
@@ -41,7 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
              .and()
          .csrf().disable()
          .httpBasic();
-         */
 	}
 	
 	@Value("${management.shell.auth.simple.user.name}")
@@ -51,10 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
-		System.out.println( remoteShellAdminID + " "+ remoteShellAdminPassword);
-		System.out.println( remoteShellAdminID + " "+ remoteShellAdminPassword);
-		System.out.println( remoteShellAdminID + " "+ remoteShellAdminPassword);
 		
 		auth
 			.inMemoryAuthentication().withUser(remoteShellAdminID).password(remoteShellAdminPassword).roles("ADMIN");
