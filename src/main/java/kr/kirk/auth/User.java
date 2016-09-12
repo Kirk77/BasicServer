@@ -1,4 +1,4 @@
-package kr.kirk.domain;
+package kr.kirk.auth;
 
 import java.util.Collection;
 

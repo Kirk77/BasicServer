@@ -1,7 +1,12 @@
 package kr.kirk.config;
 
+import kr.kirk.auth.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +18,9 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	UserService userService;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -23,16 +31,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
          .authorizeRequests()
-             .antMatchers("/", "/favicon.ico", "/resources/**").permitAll()
+             .antMatchers("/", "/ping", "/favicon.ico", "/resources/**").permitAll()
              .antMatchers("/admin/login").anonymous()
+             .antMatchers("/api/login").anonymous()
              .antMatchers("/admin/**").hasRole("ADMIN")
+             .antMatchers("/api/**").hasRole("ADMIN")
              .anyRequest().authenticated()
              .and()
          .formLogin()
              .loginPage("/admin/login")
              	.loginProcessingUrl("/admin_login_check")
-//             .usernameParameter("j_username")
-//             .passwordParameter("j_password")
+             	.usernameParameter("j_username")
+             	.passwordParameter("j_password")
 //             .successHandler(loginSuccessHandler)
              	.defaultSuccessUrl("/admin/login_ok")
              .permitAll()
@@ -53,11 +63,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
-		auth
-			.inMemoryAuthentication().withUser(remoteShellAdminID).password(remoteShellAdminPassword).roles("ADMIN");
+		auth.inMemoryAuthentication().withUser(remoteShellAdminID).password(remoteShellAdminPassword).roles("ADMIN");
 				/*
 				.and()
 				.withUser(remoteShellAdminID).password(remoteShellAdminPassword).roles("ADMIN");
 				*/
+//		auth.userDetailsService(userService);
 	}
+	
+	@Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+         return super.authenticationManagerBean();
+    }
 }
