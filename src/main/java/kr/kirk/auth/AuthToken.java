@@ -36,5 +36,11 @@ public class AuthToken {
 		this.token = token;
 	}
 
+	@Override
+	public String toString() {
+		return "AuthToken [username=" + username + ", authorities="
+				+ authorities + ", token=" + token + "]";
+	}
+
 	
 }

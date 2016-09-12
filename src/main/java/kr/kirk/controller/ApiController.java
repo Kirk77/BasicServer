@@ -1,7 +1,6 @@
 package kr.kirk.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -23,6 +22,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -35,8 +35,10 @@ public class ApiController {
 	AuthenticationManager authManager;
 	
 	
-	@RequestMapping(value = "/ping")
+	@RequestMapping(value = "/api/ping", method=RequestMethod.POST)
+	@ResponseBody
 	public String ping() {
+		logger.info("api ping");
 		return "pong";
 	}
 	
@@ -45,9 +47,7 @@ public class ApiController {
 		
 		String username = authRequest.getUsername();
 		String password = authRequest.getPassword();
-		
-		logger.info("api login... {} / {}", username, password);
-		
+				
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
 		Authentication auth = authManager.authenticate(token);
 		SecurityContext sctx = SecurityContextHolder.getContext();
@@ -58,7 +58,9 @@ public class ApiController {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("ADMIN"));
         
-		return new AuthToken(username, authorities, session.getId());
+        AuthToken authToken = new AuthToken(username, authorities, session.getId());
+        logger.info("api login... password : {}\\n{}", password, authToken);
+		return authToken;
 		
 	}
 }

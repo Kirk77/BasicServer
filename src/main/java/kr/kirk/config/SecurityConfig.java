@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.session.web.http.HeaderHttpSessionStrategy;
+import org.springframework.session.web.http.HttpSessionStrategy;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
@@ -31,11 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
          .authorizeRequests()
-             .antMatchers("/", "/ping", "/favicon.ico", "/resources/**").permitAll()
-             .antMatchers("/admin/login").anonymous()
-             .antMatchers("/api/login").anonymous()
-             .antMatchers("/admin/**").hasRole("ADMIN")
-             .antMatchers("/api/**").hasRole("ADMIN")
+             .antMatchers("/", "/favicon.ico", "/resources/**").permitAll()
+             .antMatchers("/admin/login", "/api/login").anonymous()
+             .antMatchers("/admin/**", "/api/**").hasRole("ADMIN")
              .anyRequest().authenticated()
              .and()
          .formLogin()
@@ -44,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
              	.usernameParameter("j_username")
              	.passwordParameter("j_password")
 //             .successHandler(loginSuccessHandler)
-             	.defaultSuccessUrl("/admin/login_ok")
+//             	.defaultSuccessUrl("/admin/login_ok")
              .permitAll()
              .and()
          .logout()
@@ -76,4 +77,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
          return super.authenticationManagerBean();
     }
+	
+	@Bean
+	public HttpSessionStrategy httpSessionStrategy() {
+		return new HeaderHttpSessionStrategy();
+	}
 }
