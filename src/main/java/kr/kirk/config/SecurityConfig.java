@@ -1,17 +1,20 @@
 package kr.kirk.config;
 
+import kr.kirk.auth.RestAuthEntryPoint;
+import kr.kirk.auth.SaveRequestAwareAuthSuccessHandler;
 import kr.kirk.auth.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 import org.springframework.session.web.http.HttpSessionStrategy;
@@ -19,10 +22,14 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	private RestAuthEntryPoint restAuthEntryPoint;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -33,7 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterBefore(filter, CsrfFilter.class);
 		
 		http
-         .authorizeRequests()
+			.csrf().disable()
+			.exceptionHandling()
+			.authenticationEntryPoint(restAuthEntryPoint)
+				.and()
+			.authorizeRequests()
              .antMatchers("/", "/favicon.ico", "/resources/**").permitAll()
              .antMatchers("/admin/login", "/api/login").anonymous()
              .antMatchers("/admin/**", "/api/**").hasRole("ADMIN")
@@ -44,15 +55,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
              	.loginProcessingUrl("/admin_login_check")
              	.usernameParameter("j_username")
              	.passwordParameter("j_password")
-//             .successHandler(loginSuccessHandler)
-//             	.defaultSuccessUrl("/admin/login_ok")
+             	.defaultSuccessUrl("/admin/home")
+             	.successHandler(saveRequestAwareAuthSuccessHandler())
+             	.failureHandler(authenticationFailureHandler())
              .permitAll()
              .and()
          .logout()
              .logoutUrl("/logout")
-             .logoutSuccessUrl("/")
+             .logoutSuccessUrl("/admin/login?logout")
              .and()
-         .csrf().disable()
+         
          .httpBasic();
 	}
 	
@@ -81,5 +93,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public HttpSessionStrategy httpSessionStrategy() {
 		return new HeaderHttpSessionStrategy();
+	}
+
+	@Bean
+	public SaveRequestAwareAuthSuccessHandler saveRequestAwareAuthSuccessHandler() {
+		return new SaveRequestAwareAuthSuccessHandler();
+	}
+	
+	@Bean
+	public SimpleUrlAuthenticationFailureHandler authenticationFailureHandler() {
+		return new SimpleUrlAuthenticationFailureHandler();
 	}
 }

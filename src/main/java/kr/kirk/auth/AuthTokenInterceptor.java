@@ -18,6 +18,8 @@ public class AuthTokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+		logger.info("INTERCEPTOR ::::::::::::::::::::::::::::::::::::::::::::::::::::: PRE-HANDLER ");
+		/*
 		String xAuthToken = request.getHeader(XAUTHTOKEN);
 		if ( xAuthToken == null || xAuthToken.isEmpty() ) {
 	
@@ -25,13 +27,14 @@ public class AuthTokenInterceptor implements HandlerInterceptor {
 			logger.info("{} : {}", XAUTHTOKEN, xAuthToken);
 			response.setHeader(XAUTHTOKEN, xAuthToken);
 		}
+		*/
 		return true;
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-		// TODO Auto-generated method stub
+		 logger.info("INTERCEPTOR ::::::::::::::::::::::::::::::::::::::::::::::::::::: POST-HANDLER ");
 		
 	}
 

@@ -7,7 +7,7 @@
 <title>Basic Server Home</title>
 </head>
 <body>
-	<h2>Basic Server ! ${name}</h2>
+	<h2>Basic Server ! ${msg}</h2>
 	<div>/</div>
 </body>
 </html>
