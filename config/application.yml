@@ -4,4 +4,9 @@ spring:
     mvc:    
         view:
             prefix: /WEB-INF/views/
-            suffix: .jsp		 
+            suffix: .jsp
+    session:
+        store-type: redis
+    redis:
+        host: localhost
+        port: 6378

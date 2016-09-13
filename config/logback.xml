@@ -55,6 +55,12 @@
 		<level value="info" />
 	</logger>
 	
+	<!-- 
+	<logger name="org.springframework.security">
+		<level value="info" />
+	</logger>
+	 -->
+	
 	<!-- SQL 쿼리 디버깅 시작 -->
 	<logger name="java.sql.Connection">
 		<level value="debug" />
