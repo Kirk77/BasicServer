@@ -2,7 +2,6 @@ package kr.kirk.config;
 
 import kr.kirk.auth.MultipleHttpSessionStrategy;
 import kr.kirk.auth.RestAuthEntryPoint;
-import kr.kirk.auth.SaveRequestAwareAuthSuccessHandler;
 import kr.kirk.auth.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.session.web.http.HttpSessionStrategy;
 import org.springframework.web.accept.ContentNegotiationStrategy;
@@ -29,8 +27,6 @@ public class SecurityConfig {
 
 	@Autowired
 	UserService userService;
-	
-	
 	
 	@Value("${management.shell.auth.simple.user.name}")
 	private String remoteShellAdminID;
@@ -102,12 +98,13 @@ public class SecurityConfig {
 	            	.and()
 	            .formLogin()
 	            	.loginPage("/admin/login")
-	             	.loginProcessingUrl("/admin_login_check")
+	             	.loginProcessingUrl("/admin/login_processing")
 	             	.usernameParameter("j_username")
 	             	.passwordParameter("j_password")
-	             	.defaultSuccessUrl("/admin/home")
-	             	.successHandler(saveRequestAwareAuthSuccessHandler())
-	             	.failureHandler(authenticationFailureHandler())
+	             	.successForwardUrl("/admin/home")
+//	             	.successHandler(saveRequestAwareAuthSuccessHandler())
+	             	.failureUrl("/admin/login?error")
+//	             	.failureHandler(authenticationFailureHandler())
 	             	.permitAll()
 	             	.and()
 	            .logout()
@@ -115,16 +112,6 @@ public class SecurityConfig {
 	            	.logoutSuccessUrl("/admin/login?logout")
 	            	.and()
 	            .httpBasic();
-		}
-		
-		@Bean
-		public SaveRequestAwareAuthSuccessHandler saveRequestAwareAuthSuccessHandler() {
-			return new SaveRequestAwareAuthSuccessHandler();
-		}
-		
-		@Bean
-		public SimpleUrlAuthenticationFailureHandler authenticationFailureHandler() {
-			return new SimpleUrlAuthenticationFailureHandler();
 		}
 	}
 	

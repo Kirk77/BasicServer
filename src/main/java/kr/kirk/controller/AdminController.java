@@ -16,14 +16,14 @@ public class AdminController {
 	public String home() {
 		return "home";
 	}
-	
+
 	@RequestMapping(value = "/admin/login")
 	public String login(@RequestParam(value = "error", required = false) String error,
 						@RequestParam(value = "logout", required = false) String logout,
 						Model model) {
 		String msg = "";
 		if (error != null) {
-			msg = "invalid username and password.";
+			msg = "invalid username or password.";
 		}
 		if (logout != null) {
 			msg = "logout ok";

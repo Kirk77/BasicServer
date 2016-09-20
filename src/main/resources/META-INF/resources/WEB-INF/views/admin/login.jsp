@@ -42,9 +42,9 @@
 <body id="loginBackground" >
 	<div style=" width:100%; height: 100%;">	
 		<div id="content"> 
-			<form id="loginForm" name="loginForm" action="/admin_login_check" method="POST">
+			<form id="loginForm" name="loginForm" method="POST" action="/admin/login_processing">
 				
-				<div style="margin: 0 auto; width:250px">
+				<div style="margin: 0 auto; width:265px">
 					<div style=" height: 110px"></div>
 					 
 					<div>
@@ -54,10 +54,17 @@
 						<input type="password" class="inputText" id="j_password" name="j_password" maxlength="64" tabindex="2" AUTOCOMPLETE="OFF" onkeypress="enterLogin()"/>
 					</div>
 					
-					<c:if test="${not empty loginmsg}">
-						<div class="error">${loginmsg}</div>
-					</c:if>
 					
+					<div class="error" style="margin-top:15px;">
+						<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
+							<font color="darkred">${SPRING_SECURITY_LAST_EXCEPTION.message}</font>
+						</c:if>
+					</div>
+
+					<c:if test="${not empty loginmsg}">
+						<div class="error"><font color="orange">${loginmsg}</font></div>
+					</c:if>
+										
 					<div style="margin-top:26px;">
 						<input type="button" class="ct-btn" onClick="login();" value="LOGIN" >
 					</div> 
