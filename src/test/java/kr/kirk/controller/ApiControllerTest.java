@@ -1,27 +1,28 @@
 package kr.kirk.controller;
 
-import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@WebAppConfiguration
+@AutoConfigureMockMvc
 public class ApiControllerTest {
-	
+
+	private static Logger logger = LoggerFactory.getLogger(ApiControllerTest.class);
+
 	@Autowired
-	private WebApplicationContext wac;
-	
-    private MockMvc mvc;
-    
-    @Before
-    public void setup() {
-    	mvc = MockMvcBuilders.webAppContextSetup(wac).build();
-    }
+	private MockMvc mvc;
+
+
+	@Test
+	public void login() throws Exception {
+		logger.info("login test ... {}", mvc);
+	}
+
+	@Test
+	public void ping() throws Exception {
+		logger.info("ping test ... {}", mvc);
+	}
 }
