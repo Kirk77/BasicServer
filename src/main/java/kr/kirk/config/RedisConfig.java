@@ -28,7 +28,7 @@ public class RedisConfig {
 	 @Bean
      public JedisConnectionFactory connectionFactory() throws IOException, URISyntaxException {
 		 
-		 redisServer =  RedisServer.builder().port(redisPort).build();
+		 redisServer =  RedisServer.builder().setting("bind 127.0.0.1").port(redisPort).build();
 		 redisServer.start();
 		 
 		 JedisConnectionFactory jcf = new JedisConnectionFactory();
