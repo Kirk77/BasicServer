@@ -43,11 +43,10 @@ public class ApiControllerTest {
 		authRequest.setUsername(remoteShellAdminID);
 		authRequest.setPassword(remoteShellAdminPassword);
 		
-		ResultActions result = mvc.perform(MockMvcRequestBuilders.post("/api/login")
+		ResultActions result = mvc.perform(MockMvcRequestBuilders
+					.post("/api/login")
 					.contentType(MediaType.APPLICATION_JSON_UTF8)
 					.content(om.writeValueAsString(authRequest)));
-
-
 	}
 
 	@Test
