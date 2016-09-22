@@ -14,13 +14,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.Base64Utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.net.HttpHeaders;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(ApiController.class)
+@WebMvcTest
 public class ApiControllerTest {
 
 	private static Logger logger = LoggerFactory.getLogger(ApiControllerTest.class);
@@ -38,7 +39,7 @@ public class ApiControllerTest {
 	@Test
 	public void login() throws Exception {
 		logger.info("api login test ... {}", mvc);
-		
+
 		AuthRequest authRequest = new AuthRequest();
 		authRequest.setUsername(remoteShellAdminID);
 		authRequest.setPassword(remoteShellAdminPassword);
@@ -47,12 +48,19 @@ public class ApiControllerTest {
 					.post("/api/login")
 					.contentType(MediaType.APPLICATION_JSON_UTF8)
 					.content(om.writeValueAsString(authRequest)));
+		
+		result.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 	@Test
 	public void ping() throws Exception {
 		logger.info("api ping test ... {}", mvc);
 		
+		ResultActions result = mvc.perform(MockMvcRequestBuilders
+				.post("/api/ping")
+				.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64Utils.encodeToString( (remoteShellAdminID + ":" + remoteShellAdminPassword).getBytes()))
+				);
 		
+		result.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 }
