@@ -9,10 +9,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(AdminController.class)
+//@RunWith(SpringRunner.class)
+//@WebMvcTest(AdminController.class)
 public class AdminControllerTest {
-
+/*
 	private static Logger logger = LoggerFactory.getLogger(AdminControllerTest.class);
 	
 	@Autowired
@@ -22,4 +22,6 @@ public class AdminControllerTest {
 	public void login() throws Exception {
 		logger.info("admin login test ... {}", mvc);
 	}
+	
+*/
 }

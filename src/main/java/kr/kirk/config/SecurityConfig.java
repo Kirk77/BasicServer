@@ -69,7 +69,7 @@ public class SecurityConfig {
 	            .exceptionHandling()
 				.authenticationEntryPoint(restAuthEntryPoint)
 				.and()
-	         .httpBasic();
+	         .httpBasic().disable();
 		}
 	}
 	
@@ -111,7 +111,7 @@ public class SecurityConfig {
 	            	.logoutUrl("/logout")
 	            	.logoutSuccessUrl("/admin/login?logout")
 	            	.and()
-	            .httpBasic();
+	            .httpBasic().disable();
 		}
 	}
 	
