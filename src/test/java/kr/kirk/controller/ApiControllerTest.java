@@ -1,9 +1,11 @@
 package kr.kirk.controller;
 
 import java.util.HashMap;
+
 import kr.kirk.auth.AuthRequest;
 import kr.kirk.auth.RestAuthEntryPoint;
 import kr.kirk.auth.UserServiceImpl;
+import kr.kirk.config.RedisConfig;
 import kr.kirk.config.SecurityConfig;
 
 import org.junit.Before;
@@ -28,7 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ApiController.class)
-@Import({UserServiceImpl.class, RestAuthEntryPoint.class, SecurityConfig.class})
+@Import({UserServiceImpl.class, RestAuthEntryPoint.class, SecurityConfig.class, RedisConfig.class})
 public class ApiControllerTest {
 
 	private static Logger logger = LoggerFactory.getLogger(ApiControllerTest.class);
