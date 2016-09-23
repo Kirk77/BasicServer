@@ -1,10 +1,7 @@
 package kr.kirk.controller;
 
 import java.util.HashMap;
-import java.util.Map;
-
 import kr.kirk.auth.AuthRequest;
-import kr.kirk.auth.AuthToken;
 import kr.kirk.auth.RestAuthEntryPoint;
 import kr.kirk.auth.UserServiceImpl;
 import kr.kirk.config.SecurityConfig;
